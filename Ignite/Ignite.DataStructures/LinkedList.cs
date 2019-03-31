@@ -25,7 +25,7 @@ namespace Ignite.DataStructures
             }
         }
 
-        public void Add(int num)
+        public void AddLast(int num)
         {
             if (root == null)
             {
@@ -36,6 +36,23 @@ namespace Ignite.DataStructures
             {
                 tail.next = new Node(num);
                 tail = tail.next;
+            }
+
+            count++;
+        }
+
+        public void AddFirst(int num)
+        {
+            if (root == null)
+            {
+                root = new Node(num);
+                tail = root;
+            }
+            else
+            {
+                var newNode = new Node(num);
+                newNode.next = root;
+                root = newNode;
             }
 
             count++;

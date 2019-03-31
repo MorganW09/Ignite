@@ -7,12 +7,12 @@ namespace Ignite.Tests.DataStructureTests
     {
 
         [Fact]
-        public void AddElementsToLinkedList()
+        public void AddLastElementToLinkedList()
         {
             var linkedList = new LinkedList();
             var element = 1;
 
-            linkedList.Add(element);
+            linkedList.AddLast(element);
 
             Assert.NotNull(linkedList.root);
             Assert.Equal(element, linkedList.root.value);
@@ -21,22 +21,22 @@ namespace Ignite.Tests.DataStructureTests
         }
 
         [Fact]
-        public void AddElementsToLinkedListUpdateCount()
+        public void AddLastElementToLinkedListUpdateCount()
         {
             var linkedList = new LinkedList();
             var element = 1;
 
-            linkedList.Add(element);
+            linkedList.AddLast(element);
             Assert.Equal(1, linkedList.count);
         }
 
         [Fact]
-        public void AddTwoElementsToLinkedList()
+        public void AddLastTwoElementsToLinkedList()
         {
             var linkedList = new LinkedList();
 
-            linkedList.Add(1);
-            linkedList.Add(2);
+            linkedList.AddLast(1);
+            linkedList.AddLast(2);
 
             Assert.Equal(2, linkedList.count);
 
@@ -51,14 +51,14 @@ namespace Ignite.Tests.DataStructureTests
         }
 
         [Fact]
-        public void AddFourElementsToLinkedList()
+        public void AddLastFourElementsToLinkedList()
         {
             var linkedList = new LinkedList();
 
-            linkedList.Add(1);
-            linkedList.Add(2);
-            linkedList.Add(3);
-            linkedList.Add(4);
+            linkedList.AddLast(1);
+            linkedList.AddLast(2);
+            linkedList.AddLast(3);
+            linkedList.AddLast(4);
 
 
             Assert.Equal(4, linkedList.count);
@@ -90,6 +90,79 @@ namespace Ignite.Tests.DataStructureTests
             Assert.NotNull(linkedList.tail);
             Assert.Equal(4, linkedList.tail.value);
             Assert.Null(linkedList.tail.next);
+        }
+
+        [Fact]
+        public void AddFirstElementToList()
+        {
+            var linkedList = new LinkedList();
+            var element = 1;
+
+            linkedList.AddFirst(element);
+
+            Assert.NotNull(linkedList.root);
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(element, linkedList.root.value);
+            Assert.Equal(element, linkedList.tail.value);
+            Assert.Equal(1, linkedList.count);
+        }
+
+        [Fact]
+        public void AddFirstTwoElementsToList()
+        {
+            var linkedList = new LinkedList();
+            var firstElement = 1;
+            var secondElement = 2;
+
+            linkedList.AddFirst(firstElement);
+            linkedList.AddFirst(secondElement);
+
+            Assert.NotNull(linkedList.root);
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(2, linkedList.count);
+
+            //first element
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(firstElement, linkedList.tail.value);
+            Assert.Null(linkedList.tail.next);
+
+            //second element
+            Assert.NotNull(linkedList.root);
+            Assert.Equal(secondElement, linkedList.root.value);
+            Assert.NotNull(linkedList.root.next);
+            Assert.Equal(firstElement, linkedList.root.next.value);
+            Assert.Null(linkedList.tail.next);
+        }
+
+        [Fact]
+        public void AddFirstFourElementsToList()
+        {
+            var linkedList = new LinkedList();
+            var firstElement = 1;
+            var secondElement = 2;
+            var thirdElement = 3;
+            var fourthElement = 4;
+
+            linkedList.AddFirst(firstElement);
+            linkedList.AddFirst(secondElement);
+            linkedList.AddFirst(thirdElement);
+            linkedList.AddFirst(fourthElement);
+
+            //firstNode
+            var firstNode = linkedList.root;
+            Assert.Equal(fourthElement, firstNode.value);
+
+            //secondNode
+            var secondNode = firstNode.next;
+            Assert.Equal(thirdElement, secondNode.value);
+
+            //thirdNode
+            var thirdNode = secondNode.next;
+            Assert.Equal(secondElement, thirdNode.value);
+
+            //fourthNode
+            var fourthNode = thirdNode.next;
+            Assert.Equal(firstElement, fourthNode.value);
         }
     }
 }
