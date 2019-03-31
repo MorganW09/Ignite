@@ -164,5 +164,110 @@ namespace Ignite.Tests.DataStructureTests
             var fourthNode = thirdNode.next;
             Assert.Equal(firstElement, fourthNode.value);
         }
+
+        [Fact]
+        public void RemoveOnlyElementFromList()
+        {
+            var linkedList = new LinkedList();
+            var element = 1;
+
+            linkedList.AddLast(element);
+            var removed = linkedList.Remove(element);
+
+            Assert.True(removed);
+            Assert.Equal(0, linkedList.count);
+            Assert.Null(linkedList.root);
+            Assert.Null(linkedList.tail);
+        }
+
+        [Fact]
+        public void RemoveFirstElementFromList()
+        {
+            var linkedList = new LinkedList();
+            var firstElement = 1;
+            var secondElement = 2;
+            var thirdElement = 3;
+
+            linkedList.AddLast(firstElement);
+            linkedList.AddLast(secondElement);
+            linkedList.AddLast(thirdElement);
+
+            var removed = linkedList.Remove(firstElement);
+
+            Assert.True(removed);
+            Assert.Equal(2, linkedList.count);
+            Assert.NotNull(linkedList.tail);
+
+            //testing root
+            Assert.NotNull(linkedList.root);
+            Assert.Equal(secondElement, linkedList.root.value);
+            Assert.NotNull(linkedList.root.next);
+
+            //testing tail
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(thirdElement, linkedList.tail.value);
+            Assert.Null(linkedList.tail.next);
+            Assert.Equal(thirdElement, linkedList.root.next.value);
+        }
+
+        [Fact]
+        public void RemoveMiddleElementFromList()
+        {
+            var linkedList = new LinkedList();
+            var firstElement = 1;
+            var secondElement = 2;
+            var thirdElement = 3;
+
+            linkedList.AddLast(firstElement);
+            linkedList.AddLast(secondElement);
+            linkedList.AddLast(thirdElement);
+
+            var removed = linkedList.Remove(secondElement);
+
+            Assert.True(removed);
+            Assert.Equal(2, linkedList.count);
+            Assert.NotNull(linkedList.tail);
+
+            //testing root
+            Assert.NotNull(linkedList.root);
+            Assert.Equal(firstElement, linkedList.root.value);
+            Assert.NotNull(linkedList.root.next);
+
+            //testing tail
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(thirdElement, linkedList.tail.value);
+            Assert.Null(linkedList.tail.next);
+            Assert.Equal(thirdElement, linkedList.root.next.value);
+        }
+
+        [Fact]
+        public void RemoveLastElementFromList()
+        {
+            var linkedList = new LinkedList();
+            var firstElement = 1;
+            var secondElement = 2;
+            var thirdElement = 3;
+
+            linkedList.AddLast(firstElement);
+            linkedList.AddLast(secondElement);
+            linkedList.AddLast(thirdElement);
+
+            var removed = linkedList.Remove(thirdElement);
+
+            Assert.True(removed);
+            Assert.Equal(2, linkedList.count);
+            Assert.NotNull(linkedList.tail);
+
+            //testing root
+            Assert.NotNull(linkedList.root);
+            Assert.Equal(firstElement, linkedList.root.value);
+            Assert.NotNull(linkedList.root.next);
+
+            //testing tail
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(secondElement, linkedList.tail.value);
+            Assert.Null(linkedList.tail.next);
+            Assert.Equal(secondElement, linkedList.root.next.value);
+        }
     }
 }

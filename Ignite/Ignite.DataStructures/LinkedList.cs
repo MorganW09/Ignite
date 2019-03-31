@@ -57,5 +57,48 @@ namespace Ignite.DataStructures
 
             count++;
         }
+
+        public bool Remove(int num)
+        {
+            var removed = false;
+            var currentNode = root;
+
+            if (currentNode.value == num)
+            {
+                root = currentNode.next;
+                currentNode.next = null;
+                removed = true;
+
+                if (count == 1)
+                {
+                    tail = null;
+                }
+            }
+            else
+            {
+                Node previousNode = null;
+                while (currentNode.value != num && currentNode != null)
+                {
+                    previousNode = currentNode;
+                    currentNode = currentNode.next;
+                }
+
+                if (currentNode != null)
+                {
+                    previousNode.next = currentNode.next;
+
+                    if (currentNode.next == null && currentNode.value == tail.value)
+                    {
+                        tail = previousNode;
+                    }
+                    currentNode.next = null;
+                    
+                    removed = true;
+                }
+            }
+
+            count--;
+            return removed;
+        }
     }
 }
