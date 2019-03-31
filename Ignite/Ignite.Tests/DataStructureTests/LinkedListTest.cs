@@ -422,5 +422,81 @@ namespace Ignite.Tests.DataStructureTests
             Assert.Equal(4, fourth.value);
             Assert.Equal(4, linkedList.tail.value);
         }
+
+        [Fact]
+        public void Clear_ClearLinkedListWithSingleElement()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(1);
+
+            linkedList.Clear();
+
+            Assert.Equal(0, linkedList.count);
+            Assert.Null(linkedList.root);
+            Assert.Null(linkedList.tail);
+        }
+
+        [Fact]
+        public void Clear_CleanUpMemoryReferences()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(1);
+            linkedList.AddLast(2);
+            linkedList.AddLast(3);
+            linkedList.AddLast(4);
+
+            var first = linkedList.root;
+            var second = first.next;
+            var third = second.next;
+            var fourth = third.next;
+
+            linkedList.Clear();
+            
+            Assert.Null(first.next);
+            Assert.Null(second.next);
+            Assert.Null(third.next);
+            Assert.Null(fourth.next);
+        }
+
+        [Fact]
+        public void Contains_CheckEmptyList()
+        {
+            var linkedList = new LinkedList();
+
+            var contains = linkedList.Contains(1);
+
+            Assert.False(contains);
+        }
+
+        [Fact]
+        public void Contains_CheckListWithOneElement()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(1);
+
+            var contains = linkedList.Contains(1);
+
+            Assert.True(contains);
+        }
+
+        [Fact]
+        public void Contains_CheckListWithTenElements()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(10);
+            linkedList.AddLast(23);
+            linkedList.AddLast(76);
+            linkedList.AddLast(23);
+            linkedList.AddLast(77);
+            linkedList.AddLast(92);
+            linkedList.AddLast(12);
+            linkedList.AddLast(54);
+            linkedList.AddLast(34);
+            linkedList.AddLast(96);
+
+            var contains = linkedList.Contains(92);
+
+            Assert.True(contains);
+        }
     }
 }

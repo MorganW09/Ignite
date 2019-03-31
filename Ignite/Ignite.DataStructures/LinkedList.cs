@@ -141,6 +141,41 @@ namespace Ignite.DataStructures
         }
 
         /// <summary>
+        /// Drops all elements of LinkedList
+        /// </summary>
+        public void Clear()
+        {
+            var currentNode = root;
+            while (currentNode != null)
+            {
+                var previousNode = currentNode;
+                currentNode = currentNode.next;
+                previousNode.next = null;
+            }
+
+            root = null;
+            tail = null;
+            count = 0;
+        }
+
+        public bool Contains(int num)
+        {
+            var currentNode = root;
+
+            while (currentNode != null && currentNode.value != num)
+            {
+                currentNode = currentNode.next;
+            }
+
+            if (currentNode != null)
+            {
+                return currentNode.value == num;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Attempt to remove num from LinkedList.
         /// </summary>
         /// <param name="num"></param>
