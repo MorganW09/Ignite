@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
+[assembly: InternalsVisibleTo("Ignite.Tests")]
 namespace Ignite.DataStructures
 {
-    public class LinkedList
+    public class LinkedList //: IEnumerable<int>
     {
-        private Node root { get; set; }
-        private Node tail { get; set; }
-        private int count { get; set; }
+        internal Node root { get; set; }
+        internal Node tail { get; set; }
+        internal int count { get; set; }
 
-        class Node
+        internal class Node
         {
             public int value { get; set; }
             public Node next { get; set; }
@@ -22,10 +25,6 @@ namespace Ignite.DataStructures
             }
         }
 
-        /// <summary>
-        /// Adds num to end of linked list
-        /// </summary>
-        /// <param name="i"></param>
         public void Add(int num)
         {
             if (root == null)
@@ -33,57 +32,13 @@ namespace Ignite.DataStructures
                 root = new Node(num);
                 tail = root;
             }
+            else
+            {
+                tail.next = new Node(num);
+                tail = tail.next;
+            }
 
-            tail.next = new Node(num);
-            tail = tail.next;
             count++;
-        }
-
-        /// <summary>
-        /// Returns the number of elements currently in the list
-        /// </summary>
-        /// <returns></returns>
-        public int Count()
-        {
-            return count;
-        }
-
-        public void Remove(int num)
-        {
-            var currentNode = root;
-            var previousNode = root;
-            while (currentNode != null)
-            {
-                if (currentNode.value == num)
-                {
-                    break;
-                }
-                previousNode = currentNode;
-                currentNode = currentNode.next;
-            }
-
-            
-        }
-
-        /// <summary>
-        /// Returns true/false value depending on whether num is contained in list
-        /// </summary>
-        /// <param name="num"></param>
-        /// <returns></returns>
-        public bool Contains(int num)
-        {
-            var currentNode = root;
-            var inList = false;
-            while (currentNode != null)
-            {
-                if (currentNode.value == num)
-                {
-                    inList = true;
-                    break;
-                }
-                currentNode = currentNode.next;
-            }
-            return inList;
         }
     }
 }

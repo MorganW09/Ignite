@@ -5,63 +5,91 @@ namespace Ignite.Tests.DataStructureTests
 {
     public class LinkedListTest
     {
-        private LinkedList buildLinkedList(int greatestElement)
+
+        [Fact]
+        public void AddElementsToLinkedList()
         {
             var linkedList = new LinkedList();
-            for (int i = 1; i <= greatestElement; i++)
-            {
-                linkedList.Add(i);
-            }
-            return linkedList;
+            var element = 1;
+
+            linkedList.Add(element);
+
+            Assert.NotNull(linkedList.root);
+            Assert.Equal(element, linkedList.root.value);
+            Assert.Null(linkedList.root.next);
+            Assert.NotNull(linkedList.tail);
         }
 
-        [Theory]
-        [InlineData(1, 1)]
-        [InlineData(10, 10)]
-        [InlineData(100, 100)]
-        public void AddItemsToList(int greatestElement, int expected)
+        [Fact]
+        public void AddElementsToLinkedListUpdateCount()
         {
-            //Arrange
-            var linkedList = buildLinkedList(greatestElement);
+            var linkedList = new LinkedList();
+            var element = 1;
 
-            //Act
-            var actual = linkedList.Count();
-
-            //Assert
-            Assert.Equal(expected, actual);
+            linkedList.Add(element);
+            Assert.Equal(1, linkedList.count);
         }
 
-        [Theory]
-        [InlineData(1, 1, 0)]
-        [InlineData(2, 1, 1)]
-        [InlineData(3, 3, 2)]
-        public void RemoveElementsFromList(int greatestElement, int elementToRemove, int expectedCount)
+        [Fact]
+        public void AddTwoElementsToLinkedList()
         {
-            //Arrange
-            var linkedList = buildLinkedList(greatestElement);
+            var linkedList = new LinkedList();
 
-            //Act
-            linkedList.Remove(elementToRemove);
-            var count = linkedList.Count();
+            linkedList.Add(1);
+            linkedList.Add(2);
 
-            //Assert
-            Assert.Equal(expectedCount, count);
+            Assert.Equal(2, linkedList.count);
+
+            //root tests
+            Assert.Equal(1, linkedList.root.value);
+            Assert.NotNull(linkedList.root.next);
+
+            //tail tests
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(2, linkedList.tail.value);
+            Assert.Null(linkedList.tail.next);
         }
 
-        [Theory]
-        [InlineData(1, 1, true)]
-        [InlineData(10, 4, true)]
-        [InlineData(5, 10, false)]
-        public void ListContainsElement(int greatestElement, int elementToCheck, bool expected)
+        [Fact]
+        public void AddFourElementsToLinkedList()
         {
-            //Arrange 
-            var linkedList = buildLinkedList(greatestElement);
+            var linkedList = new LinkedList();
 
-            //Act
-            var inList = linkedList.Contains(elementToCheck);
+            linkedList.Add(1);
+            linkedList.Add(2);
+            linkedList.Add(3);
+            linkedList.Add(4);
 
-            //Assert
-            Assert.Equal(expected, inList);
+
+            Assert.Equal(4, linkedList.count);
+
+            //root tests
+            var firstElement = linkedList.root;
+            Assert.Equal(1, firstElement.value);
+            Assert.NotNull(firstElement.next);
+
+            //2 tests
+            var secondElement = firstElement.next;
+            Assert.NotNull(secondElement);
+            Assert.Equal(2, secondElement.value);
+            Assert.NotNull(secondElement.next);
+
+            //3 tests
+            var thirdElement = secondElement.next;
+            Assert.NotNull(thirdElement);
+            Assert.Equal(3, thirdElement.value);
+            Assert.NotNull(thirdElement.next);
+
+            //4 tests
+            var fourthElement = thirdElement.next;
+            Assert.NotNull(fourthElement);
+            Assert.Equal(4, fourthElement.value);
+            Assert.Null(fourthElement.next);
+
+            //tail tests
+            Assert.NotNull(linkedList.tail);
+            Assert.Equal(4, linkedList.tail.value);
+            Assert.Null(linkedList.tail.next);
         }
     }
 }
