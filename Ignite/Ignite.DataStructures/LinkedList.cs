@@ -25,22 +25,84 @@ namespace Ignite.DataStructures
             }
         }
 
-        public void AddLast(int num)
+        /// <summary>
+        /// Adds the newNum after the first occurrence of num in list
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="newNum"></param>
+        public void AddAfter(int num, int newNum)
         {
-            if (root == null)
+            var currentNode = root;
+            while(currentNode != null)
             {
-                root = new Node(num);
-                tail = root;
+                if (currentNode.value == num)
+                {
+                    break;
+                }
+
+                currentNode = currentNode.next;
+            }
+
+            if (currentNode == null)
+            {
+                throw new InvalidOperationException("num is not in the current LinkedList");
+            }
+
+            var newNode = new Node(newNum);
+
+            if (currentNode.next == null)
+            {
+                tail = newNode;
             }
             else
             {
-                tail.next = new Node(num);
-                tail = tail.next;
+                newNode.next = currentNode.next;
+            }
+
+            currentNode.next = newNode;
+            count++;
+        }
+
+        /// <summary>
+        /// Adds newNum before the first occurrence of num in list
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="newNum"></param>
+        public void AddBefore(int num, int newNum)
+        {
+            var currentNode = root;
+            Node previousNode = null;
+            while(currentNode != null && currentNode.value != num)
+            {
+                previousNode = currentNode;
+                currentNode = currentNode.next;
+            }
+
+            if (currentNode == null)
+            {
+                throw new InvalidOperationException("num is not in the current LinkedList");
+            }
+
+            var newNode = new Node(newNum);
+
+            if (previousNode == null)
+            {
+                newNode.next = currentNode;
+                root = newNode;
+            }
+            else
+            {
+                newNode.next = previousNode.next;
+                previousNode.next = newNode;
             }
 
             count++;
         }
 
+        /// <summary>
+        /// Add num to LinkedList in the root position
+        /// </summary>
+        /// <param name="num"></param>
         public void AddFirst(int num)
         {
             if (root == null)
@@ -58,6 +120,31 @@ namespace Ignite.DataStructures
             count++;
         }
 
+        /// <summary>
+        /// Add num to LinkedList in the tail position
+        /// </summary>
+        /// <param name="num"></param>
+        public void AddLast(int num)
+        {
+            if (root == null)
+            {
+                root = new Node(num);
+                tail = root;
+            }
+            else
+            {
+                tail.next = new Node(num);
+                tail = tail.next;
+            }
+
+            count++;
+        }
+
+        /// <summary>
+        /// Attempt to remove num from LinkedList.
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public bool Remove(int num)
         {
             var removed = false;
@@ -65,39 +152,59 @@ namespace Ignite.DataStructures
 
             if (currentNode.value == num)
             {
-                root = currentNode.next;
-                currentNode.next = null;
-                removed = true;
-
-                if (count == 1)
-                {
-                    tail = null;
-                }
+                removed = removeFirstNode();
             }
             else
             {
-                Node previousNode = null;
-                while (currentNode.value != num && currentNode != null)
-                {
-                    previousNode = currentNode;
-                    currentNode = currentNode.next;
-                }
-
-                if (currentNode != null)
-                {
-                    previousNode.next = currentNode.next;
-
-                    if (currentNode.next == null && currentNode.value == tail.value)
-                    {
-                        tail = previousNode;
-                    }
-                    currentNode.next = null;
-                    
-                    removed = true;
-                }
+                removed = removeMiddleOrLastElement(num);
             }
 
-            count--;
+            if (removed)
+            {
+                count--;
+            }
+            return removed;
+        }
+
+        internal bool removeFirstNode()
+        {
+            var firstNode = root;
+
+            root = root.next;
+            firstNode.next = null;
+
+            if (count == 1)
+            {
+                tail = null;
+            }
+
+            return true;
+        }
+
+        internal bool removeMiddleOrLastElement(int num)
+        {
+            var removed = false;
+            var currentNode = root;
+            Node previousNode = null;
+            while (currentNode != null && currentNode.value != num)
+            {
+                previousNode = currentNode;
+                currentNode = currentNode.next;
+            }
+
+            if (currentNode != null)
+            {
+                previousNode.next = currentNode.next;
+
+                if (currentNode.next == null && currentNode.value == tail.value)
+                {
+                    tail = previousNode;
+                }
+                currentNode.next = null;
+
+                removed = true;
+            }
+
             return removed;
         }
     }

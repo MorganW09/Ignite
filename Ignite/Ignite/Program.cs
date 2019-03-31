@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
+using Ignite.Benchmarking;
+using System;
 
 namespace Ignite
 {
@@ -6,7 +9,8 @@ namespace Ignite
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var summary = BenchmarkRunner.Run<LinkedListBenchmarking>();
+            Console.ReadKey();
         }
     }
 }
