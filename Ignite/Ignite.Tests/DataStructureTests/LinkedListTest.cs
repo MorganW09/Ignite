@@ -498,5 +498,106 @@ namespace Ignite.Tests.DataStructureTests
 
             Assert.True(contains);
         }
+
+        [Fact]
+        public void CopyTo_ThrowsExceptionWhenArrayNull()
+        {
+            var linkedList = new LinkedList();
+            Assert.Throws<ArgumentNullException>(() => linkedList.CopyTo(null, 0));
+        }
+
+        [Fact]
+        public void CopyTo_ThrowsExceptionWhenIndexLessThan0()
+        {
+            var linkedList = new LinkedList();
+            var intArray = new int[1];
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => linkedList.CopyTo(intArray, -1));
+        }
+
+        [Fact]
+        public void CopyTo_ThrowsExceptionWhenIndexGreaterThanLength()
+        {
+            var linkedList = new LinkedList();
+            var intArray = new int[1];
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => linkedList.CopyTo(intArray, 1));
+        }
+
+        [Fact]
+        public void CopyTo_ThrowsExceptionArrayNotLongEnoughForList()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(10);
+            linkedList.AddLast(20);
+            linkedList.AddLast(30);
+            var intArray = new int[1];
+
+            Assert.Throws<ArgumentException>(() => linkedList.CopyTo(intArray, 0));
+        }
+
+
+        [Fact]
+        public void CopyTo_CopyOneElement()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(10);
+
+            var intArray = new int[linkedList.count];
+            linkedList.CopyTo(intArray, 0);
+
+            Assert.Equal(10, intArray[0]);
+        }
+
+
+        [Fact]
+        public void CopyTo_CopyThreeElements()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(10);
+            linkedList.AddLast(20);
+            linkedList.AddLast(30);
+
+            var intArray = new int[linkedList.count];
+            linkedList.CopyTo(intArray, 0);
+
+            Assert.Equal(10, intArray[0]);
+            Assert.Equal(20, intArray[1]);
+            Assert.Equal(30, intArray[2]);
+        }
+
+
+        [Fact]
+        public void CopyTo_CopyThreeElementsNotStartingAt0()
+        {
+            var linkedList = new LinkedList();
+            linkedList.AddLast(10);
+            linkedList.AddLast(20);
+            linkedList.AddLast(30);
+            linkedList.AddLast(40);
+            linkedList.AddLast(50);
+            linkedList.AddLast(60);
+
+            var offset = 3;
+            var intArray = new int[linkedList.count + offset];
+            linkedList.CopyTo(intArray, offset);
+
+            Assert.Equal(10, intArray[0 + offset]);
+            Assert.Equal(20, intArray[1 + offset]);
+            Assert.Equal(30, intArray[2 + offset]);
+            Assert.Equal(40, intArray[3 + offset]);
+            Assert.Equal(50, intArray[4 + offset]);
+            Assert.Equal(60, intArray[5 + offset]);
+        }
+
+
+        [Fact]
+        public void CopyTo_NoExceptionWhenCopyingEmptyList()
+        {
+            var linkedList = new LinkedList();
+            var intArray = new int[0];
+            
+            linkedList.CopyTo(intArray, 0);
+        }
     }
 }

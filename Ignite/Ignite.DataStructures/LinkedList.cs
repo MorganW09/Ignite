@@ -119,7 +119,7 @@ namespace Ignite.DataStructures
 
             count++;
         }
-
+        
         /// <summary>
         /// Add num to LinkedList in the tail position
         /// </summary>
@@ -158,6 +158,11 @@ namespace Ignite.DataStructures
             count = 0;
         }
 
+        /// <summary>
+        /// Checks to see whether num is contained within list
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public bool Contains(int num)
         {
             var currentNode = root;
@@ -173,6 +178,36 @@ namespace Ignite.DataStructures
             }
 
             return false;
+        }
+
+        public void CopyTo(int[] array, int index)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Cannot provide negative number for index");
+            }
+
+            if (index > count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Index greater than length of list");
+            }
+
+            if (array.Length - index < count)
+            {
+                throw new ArgumentException("Array is not big enough to hold all values of list");
+            }
+
+            var node = root;
+            while (node != null)
+            {
+                array[index++] = node.value;
+                node = node.next;
+            }
         }
 
         /// <summary>
